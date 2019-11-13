@@ -1,0 +1,79 @@
+---
+title: "MAS8404 Practical Report 2"
+author: "Mansoor Hamid"
+date: "11/9/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir= normalizePath('..'))
+```
+### Question 1:
+
+#### Part(a)
+```{r}
+genexpr_data=read.csv("C:/Users/User/Documents/RWorkSpace/data/Ch10Ex11.csv",header=TRUE)
+#Check dimesion of the loaded data
+dim(genexpr_data)
+
+#transpose once to correct the data
+genexpr_data = t(genexpr_data)
+```
+##### Creating correlation distance matrix
+```{r}
+#Transpose the matrix in order to use cor function
+genexpr_data_transposed = t(genexpr_data)
+
+#Compute the inter-observation correlations
+r_obs = cor(genexpr_data_transposed)
+#Create the distance matrix
+d_cor = 1-r_obs
+
+#convert the distance matrix to dis object
+d_cor = as.dist(d_cor)
+```
+##### Perform hierarchical clustering using hclust with metod specified as "single" to indicate single-linkage
+```{r}
+hc_c = hclust(d_cor, method = "single")
+```
+##### Plot the dendrogram
+```{r}
+plot(hc_c, cex=0.5,main="",sub="",xlab="")
+```
+
+#### Part(b)
+
+##### Perform hierarchical clustering using hclust with metod specified as "complete" and "average"
+```{r}
+hc_c_complete = hclust(d_cor, method = "complete")
+hc_c_average = hclust(d_cor, method = "average")
+```
+##### Plot the dendrograms
+```{r}
+plot(hc_c_complete, cex=0.5,main="",sub="",xlab="")
+plot(hc_c_average, cex=0.5,main="",sub="",xlab="")
+```
+
+#### Part(c)
+
+###### Determine Euclidean distance and perform hierarchical clustering with single-linkage 
+```{r}
+genexpr_data_euc = dist(genexpr_data)
+hc_c_euc_single = hclust(genexpr_data_euc, method = "single")
+```
+##### Plot the dendrogram
+```{r}
+plot(hc_c_euc_single, cex=0.5,main="",sub="",xlab="")
+```
+
+### Question 2:
+
+#### Part(a)
+```{r}
+#Scale the data
+Kmax = 10
+genexpr_data_scaled = scale(genexpr_data)
+
+
+```
